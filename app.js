@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var aboutRouter = require ('./routes/about');
-var ProjectRouter = require ('./routes/Project');
+var ProjectRouter = require ('./routes/projects');
 var app = express();
 
 // view engine setup
@@ -23,7 +23,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/about',aboutRouter);
-app.use('/Projects/index',ProjectRouter);
+app.use('/Projects',ProjectRouter);
+//app.use('/Projects/add',ProjectRouter);
+
+const mongoose = require('mongoose');
+//global config file
+const config = require('./config/globals')
+mongoose.connect(config.db)
+.then(
+  (res) =>
+  {
+    console.log("Connected to the Databases")
+  }
+).catch(() =>{
+  console.log("Connection Failed");
+}
+)
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
