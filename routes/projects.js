@@ -90,6 +90,33 @@ router.get('/delete/:_id', (req,res,next)=> {
     // so we reading this parameter from url
 });
 
+// Get /project/edit/abc231
+router.get('/edit/:_id', (req,res,next) =>{
+    Project.findById(req.params._id, (err,project) => {
+        if (err)
+        {
+            console.log(err)
+        }
+        else
+        {
+            // get the courses for drop down
+            Course.find((err,courses)=>{
+                if(err)
+                {
+                    console.log(err)
+                }
+                else
+                {
+                    res.render('Projects/edit', {
+                    title:'Project Details',
+                    project: project,
+                    courses: courses
+                    })
 
-
+                }
+            })
+            
+        }
+    })
+})
 module.exports = router;
