@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var aboutRouter = require ('./routes/about');
 var ProjectRouter = require ('./routes/projects');
+var courseController = require ('./routes/courses');
 var app = express();
 
 // view engine setup
@@ -25,7 +26,7 @@ app.use('/users', usersRouter);
 app.use('/about',aboutRouter);
 app.use('/Projects',ProjectRouter);
 //app.use('/Projects/add',ProjectRouter);
-
+app.use('/courses', courseController);
 const mongoose = require('mongoose');
 //global config file
 const config = require('./config/globals')

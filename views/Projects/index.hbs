@@ -7,11 +7,15 @@
         <th>Name</th>
         <th>Due Date</th>
         <th>Course</th>
+        <th>Actions</th>
         {{#each projects}}
             <tr>
             <td>{{this.name}}</td>
             <td>{{this.dueDate}}</td>
             <td>{{this.course}}</td>
+            <td><a href="/projects/delete/{{this._id}}" class="btn btn-danger"
+            onclick = "return areyousure();">
+            Delete</a></td>
             </tr>
         {{/each}}
     </thead>
