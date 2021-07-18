@@ -114,9 +114,31 @@ router.get('/edit/:_id', (req,res,next) =>{
                     })
 
                 }
-            })
+            }).sort({courseCode:1})
             
         }
     })
 })
+
+/* POST /projects/edit/abc123 */
+
+router.post('/edit/:_id', (req,res,next) => {
+    Project.findOneAndUpdate({_id: req.params._id},
+        {
+            name: req.body.name,
+            dueDate: req.body.dueDate,
+            course: req.body.course,
+            status: req.body.status
+        }, (err,project) => {
+            if (err)
+            {
+                console.log(err)
+            }
+            else
+            {
+                res.redirect('/Projects/index')
+            }
+        })
+})
+
 module.exports = router;

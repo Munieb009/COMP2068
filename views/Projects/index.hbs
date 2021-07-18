@@ -7,6 +7,7 @@
         <th>Name</th>
         <th>Due Date</th>
         <th>Course</th>
+        <th>Status</th>
         <th>Actions</th>
         {{#each projects}}
             <tr>
@@ -16,8 +17,9 @@
                 </a>
                 </td>
 
-            <td>{{this.dueDate}}</td>
+            <td>{{shortDate this.dueDate}}</td>
             <td>{{this.course}}</td>
+            <td>{{this.status}}</td>
             <td><a href="/projects/delete/{{this._id}}" class="btn btn-danger"
             onclick = "return areyousure();">
             Delete</a></td>

@@ -12,6 +12,10 @@ var projSchema = new mongoose.Schema({
         course:{
             type: String,
             required : true
+        },
+        status:{
+            type: String,
+            default: 'To-Do'
         }
     })
 // export the schema so its public and visible to controller

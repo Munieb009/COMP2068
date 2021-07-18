@@ -41,6 +41,21 @@ mongoose.connect(config.db)
 }
 )
 
+// hbs helper function pre-select correct drop down option
+var hbs = require('hbs')
+hbs.registerHelper('createOption', (currentValue, selectedValue) => {
+  var selectedProperty = ''
+
+  if (currentValue == selectedValue)
+  {
+    selectedProperty = ' selected'
+  }
+  return new hbs.SafeString('<option' + selectedProperty + '>' + currentValue + '</option>')
+})
+
+hbs.registerHelper('shortDate',(dateVal) => {
+  return new hbs.SafeString(dateVal.toLocaleDateString('en-US'))
+})
 
 
 // catch 404 and forward to error handler
