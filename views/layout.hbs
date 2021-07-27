@@ -8,6 +8,7 @@
     <!-- custom js -->
     <script type="text/javascript" src="/javascripts/scripts.js"></script>
   </head>
+  
   <body>
     <!-- Nav bar from W3Schools.com -->
     <!-- A grey horizontal navbar that becomes vertical on small screens -->
@@ -22,9 +23,31 @@
     <li class="nav-item">
       <a class="nav-link" href="/Projects/index">Projects</a>
     </li>
+    {{#if user}}
     <li class="nav-item">
       <a class="nav-link" href="/courses/add">Add a course</a>
     </li>
+    {{/if}}
+    </ul>
+    <ul class="navbar-nav ms-auto">
+      {{#if user}}
+      <!-- user is authenticated -->
+          <li class="nav-item">
+            <a class="nav-link" href="#">{{user.username}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+
+      {{else}} <!-- if the user is anonyms then they can see login and register -->
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      {{/if}}
+      
     </ul>
 </nav>
     {{{body}}}

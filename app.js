@@ -10,6 +10,31 @@ var aboutRouter = require ('./routes/about');
 var ProjectRouter = require ('./routes/projects');
 var courseController = require ('./routes/courses');
 var app = express();
+const passport = require('passport')
+const plm = require('passport-local-mongoose')
+const session = require('express-session')
+
+// configure passport before mapping the controller
+// Required for controllers to use the passport
+
+app.use(session({
+  secret:'Projec@2t!',
+  resave: false,
+  saveUninitialized:false
+
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+// requires the model with Passport-Local Mongoose plugged in
+const User = require('./models/user')
+passport.use(User.createStrategy())
+
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
