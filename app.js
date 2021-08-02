@@ -13,6 +13,8 @@ var app = express();
 const passport = require('passport')
 const plm = require('passport-local-mongoose')
 const session = require('express-session')
+const gitHubStrategy = require('passport-github2').Strategy
+
 
 // configure passport before mapping the controller
 // Required for controllers to use the passport
@@ -29,11 +31,18 @@ app.use(passport.session())
 
 // requires the model with Passport-Local Mongoose plugged in
 const User = require('./models/user')
+// global vars configuration file
+const config = require('./config/globals')
 passport.use(User.createStrategy())
 
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// link passport to our model that extends passport-local-mongoose
+
+passport.use(User.createStrategy())
+
 
 
 // view engine setup
@@ -53,8 +62,6 @@ app.use('/Projects',ProjectRouter);
 //app.use('/Projects/add',ProjectRouter);
 app.use('/courses', courseController);
 const mongoose = require('mongoose');
-//global config file
-const config = require('./config/globals')
 mongoose.connect(config.db)
 .then(
   (res) =>
@@ -65,7 +72,34 @@ mongoose.connect(config.db)
   console.log("Connection Failed");
 }
 )
+// configure passport-github2 auth w/API keys and our User model
+passport.use(new gitHubStrategy({
+  clientID: config.github.clientId,
+  clientSecret: config.github.clientSecret,
+  callbackURL: config.github.callbackUrl
+},
+  // after successful GitHub login, register or login user
+  async (accessToken, refreshToken, profile, done) => {
+      // does github user already exist in our db?
+      const user = await User.findOne({ oauthId: profile.id })
 
+
+      if (user) {
+          return done(null, user)
+      }
+      else {
+          const newUser = new User({
+              username: profile.username,
+              oauthId: profile.id,
+              oauthProvider: 'GitHub',
+              created: Date.now()
+        })
+
+
+          const savedUser = await newUser.save()
+          done(null, savedUser)
+      }
+  }))
 // hbs helper function pre-select correct drop down option
 var hbs = require('hbs')
 hbs.registerHelper('createOption', (currentValue, selectedValue) => {

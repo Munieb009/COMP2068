@@ -8,7 +8,10 @@ const plm = require('passport-local-mongoose')
 
 var userSchema = new mongoose.Schema({
     username: String,
-    passworod: String
+    passworod: String,
+    oauthId: String,
+    oauthProvider: String,
+    created: Date
 })
 // We plug in our schema here in passport local mongoose
 userSchema.plugin(plm)
