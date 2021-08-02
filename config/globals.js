@@ -4,7 +4,7 @@ module.exports =
     'github': {
     // for now let them be empty
             'clientId': 'c44465f002c807ec1ae9',
-            'clientSecret': '3ae6e1f8ce1fcbf687f78034f78737d8372df561',
+            'clientSecret': '',
             'callbackUrl': 'http://localhost:3000/github/callback'
         }
 }
